@@ -42,7 +42,7 @@ public:
    * @param lat
    *                the latitude within [-90, 90]
    */
-  NdsCoordinate::NdsCoordinate(double lon, double lat) ~NdsCoordinate();
+  NdsCoordinate(double lon, double lat);
 
   /**
    * Creates a new NDSCoordinate from a morton code.

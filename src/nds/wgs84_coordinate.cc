@@ -17,9 +17,8 @@ Wgs84Coordinate::Wgs84Coordinate(double longitude, double latitude) {
 }
 
 std::string Wgs84Coordinate::toGeoJSON() {
-  return "{\"type\": \"Feature\",\r\n" + "      \"properties\": {},\r\n" +
-         "      \"geometry\": {\r\n" + "        \"type\": \"Point\",\r\n" +
-         "        \"coordinates\": [\r\n" + "          " +
+  return "{\"type\": \"Feature\",\r\n\"properties\": {},\r\n\"geometry\": "
+         "{\r\n\"type\": \"Point\",\r\n\"coordinates\": [\r\n" +
          std::to_string(longitude_) + "," + std::to_string(latitude_) + "\r\n" +
          "        ]\r\n" + "      }},";
 }

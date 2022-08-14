@@ -86,7 +86,7 @@ Wgs84Coordinate NdsCoordinate::toWGS84() {
   double lat = latitude_ >= 0
                    ? (double)latitude_ / (double)MAX_LATITUDE * 90.0D
                    : (double)latitude_ / (double)MIN_LATITUDE * -90.0D;
-  return new Wgs84Coordinate(lon, lat);
+  return Wgs84Coordinate(lon, lat);
 }
 
 std::string NdsCoordinate::toGeoJSON() { return toWGS84().toGeoJSON(); }
