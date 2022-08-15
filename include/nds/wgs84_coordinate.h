@@ -18,8 +18,8 @@ public:
    */
   Wgs84Coordinate(double longitude, double latitude);
 
-  double getLongitude() const { return longitude_; }
-  double getLatitude() const { return latitude_; }
+  double longitude() const { return longitude_; }
+  double latitude() const { return latitude_; }
   /**
    * Creates a GeoJSON "Point" feature representation of this coordinate
    *

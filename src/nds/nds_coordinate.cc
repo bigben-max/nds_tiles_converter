@@ -16,15 +16,15 @@ NdsCoordinate::NdsCoordinate(double lon, double lat) {
     std::cout << "The latitude value " << lat
               << " exceeds the valid range of [-90; 90]" << std::endl;
   }
-  latitude_ = (int)std::floor(lat / 180.0 * LATITUDE_RANGE);
-  longitude_ = (int)std::floor(lon / 360.0 * LONGITUDE_RANGE);
+  latitude_ = (int)std::floor(lat / 180.0 * kLatitudeRange);
+  longitude_ = (int)std::floor(lon / 360.0 * kLongitudeRange);
 }
 
 bool NdsCoordinate::verify(int lon, int lat) {
-  if (lat < MIN_LATITUDE || MAX_LATITUDE < lat) {
+  if (lat < kMinLatitude || kMaxLatitude < lat) {
     // throw new IllegalArgumentException(
     //     "Latitude value " + lat + " exceeds allowed range [-2^30; 2^30] [" +
-    //     MIN_LATITUDE + "," + MAX_LATITUDE + "].");
+    //     kMinLatitude + "," + kMaxLatitude + "].");
     return false;
   }
   return true;
@@ -81,11 +81,11 @@ int64_t NdsCoordinate::getMortonCode() {
 
 Wgs84Coordinate NdsCoordinate::toWGS84() {
   double lon = longitude_ >= 0
-                   ? (double)longitude_ / (double)MAX_LONGITUDE * 180.0D
-                   : (double)longitude_ / (double)MIN_LONGITUDE * -180.0D;
+                   ? (double)longitude_ / (double)kMaxLongitude * 180.0
+                   : (double)longitude_ / (double)kMinLongitude * -180.0;
   double lat = latitude_ >= 0
-                   ? (double)latitude_ / (double)MAX_LATITUDE * 90.0D
-                   : (double)latitude_ / (double)MIN_LATITUDE * -90.0D;
+                   ? (double)latitude_ / (double)kMaxLatitude * 90.0
+                   : (double)latitude_ / (double)kMinLatitude * -90.0;
   return Wgs84Coordinate(lon, lat);
 }
 

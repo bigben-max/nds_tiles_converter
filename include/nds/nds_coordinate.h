@@ -25,6 +25,17 @@
 #include "nds/wgs84_coordinate.h"
 
 namespace nds {
+
+constexpr int kMaxLongitude = std::numeric_limits<int>::max();
+constexpr int kMinLongitude = std::numeric_limits<int>::min();
+constexpr int kMaxLatitude = kMaxLongitude / 2;
+constexpr int kMinLatitude = kMinLongitude / 2;
+
+constexpr int64_t kLongitudeRange =
+    (int64_t)kMaxLongitude - (int64_t)kMinLongitude;
+constexpr int64_t kLatitudeRange =
+    (int64_t)kMaxLatitude - (int64_t)kMinLatitude;
+
 class NdsCoordinate {
 public:
   /**
@@ -86,19 +97,23 @@ public:
    */
   std::string toGeoJSON();
 
+  int latitude() const { return latitude_; }
+  int longitude() const { return longitude_; }
+
+  bool operator==(const NdsCoordinate &other) {
+    return this->latitude_ == other.latitude_ &&
+           this->longitude_ == other.longitude_;
+  }
+
 private:
   bool verify(int lon, int lat);
 
   int latitude_;
   int longitude_;
-
-  int MAX_LONGITUDE = std::numeric_limits<int>::max();
-  int MIN_LONGITUDE = std::numeric_limits<int>::min();
-  int MAX_LATITUDE = MAX_LONGITUDE / 2;
-  int MIN_LATITUDE = MIN_LONGITUDE / 2;
-
-  int64_t LONGITUDE_RANGE = (int64_t)MAX_LONGITUDE - MIN_LONGITUDE;
-  int64_t LATITUDE_RANGE = (int64_t)MAX_LATITUDE - MIN_LATITUDE;
 };
-
+inline std::ostream &operator<<(std::ostream &out, const NdsCoordinate &other) {
+  out << "latitude: " << other.latitude()
+      << " , longitude: " << other.longitude();
+  return out;
+}
 } // namespace nds

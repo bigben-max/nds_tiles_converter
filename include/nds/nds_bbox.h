@@ -5,26 +5,35 @@ namespace nds {
 class NdsBbox {
 
 public:
-  NdsBbox(/* args */);
-  ~NdsBbox();
+  NdsBbox(int north, int east, int south, int west)
+      : north_(north), east_(east), south_(south), west_(west) {}
+  ~NdsBbox() {}
 
-  //   /**
-  //    * The western hemisphere part of the world map corresponds to NDS Tile
-  //    number
-  //    * 0 on level 0
-  //    */
-  //   static NdsBbox NdsBbox(NdsCoordinate.MAX_LATITUDE, 0,
-  //                          NdsCoordinate.MIN_LATITUDE,
-  //                          NdsCoordinate.MIN_LONGITUDE);
-  //   /**
-  //    * The eastern hemisphere part of the world map corresponds to NDS Tile
-  //    number
-  //    * 1 on level 0
-  //    */
-  // public
-  //   static NdsBbox EAST_HEMISPHERE =
-  //       new NdsBbox(NdsCoordinate.MAX_LATITUDE, NdsCoordinate.MAX_LONGITUDE,
-  //                   NdsCoordinate.MIN_LATITUDE, 0);
+  int north() const { return north_; }
+  int east() const { return east_; }
+  int south() const { return south_; }
+  int west() const { return west_; }
+
+  bool operator==(const NdsBbox &other) {
+    return this->north_ == other.north_ && this->east_ == other.east_ &&
+           this->south_ == other.south_ && this->west_ == other.west_;
+  }
+  /**
+   * The western hemisphere part of the world map corresponds to NDS Tile
+   number
+   * 0 on level 0
+   */
+  static NdsBbox WEST_HEMISPHERE() {
+    return NdsBbox(kMaxLatitude, 0, kMinLatitude, kMinLongitude);
+  }
+  /**
+   * The eastern hemisphere part of the world map corresponds to NDS Tile
+   number
+   * 1 on level 0
+   */
+  static NdsBbox EAST_HEMISPHERE() {
+    return NdsBbox(kMaxLatitude, kMaxLongitude, kMinLatitude, 0);
+  }
   /**
    *
    * Gets the south west corner of the bounding box
@@ -71,8 +80,8 @@ public:
   Wgs84Bbox toWGS84() {
     Wgs84Coordinate ne = northEast().toWGS84();
     Wgs84Coordinate sw = southWest().toWGS84();
-    return Wgs84Bbox(ne.getLatitude(), ne.getLongitude(), sw.getLatitude(),
-                     sw.getLongitude());
+    return Wgs84Bbox(ne.latitude(), ne.longitude(), sw.latitude(),
+                     sw.longitude());
   }
 
   /**
@@ -89,5 +98,9 @@ private:
   int south_;
   int west_;
 };
-
+inline std::ostream &operator<<(std::ostream &out, const NdsBbox &other) {
+  out << "north: " << other.north() << " , east: " << other.east()
+      << " , south: " << other.south() << " , west: " << other.west();
+  return out;
+}
 } // namespace nds

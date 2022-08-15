@@ -1,4 +1,6 @@
 #include "nds/wgs84_coordinate.h"
+//
+#include "configor/json.hpp"
 
 namespace nds {
 Wgs84Coordinate::Wgs84Coordinate(double longitude, double latitude) {
@@ -17,10 +19,12 @@ Wgs84Coordinate::Wgs84Coordinate(double longitude, double latitude) {
 }
 
 std::string Wgs84Coordinate::toGeoJSON() {
-  return "{\"type\": \"Feature\",\r\n\"properties\": {},\r\n\"geometry\": "
-         "{\r\n\"type\": \"Point\",\r\n\"coordinates\": [\r\n" +
-         std::to_string(longitude_) + "," + std::to_string(latitude_) + "\r\n" +
-         "        ]\r\n" + "      }},";
+  configor::json geojson;
+  geojson["type"] = "Feature";
+  geojson["properties"] = {};
+  geojson["geometry"]["type"] = "Point";
+  geojson["geometry"]["coordinates"] = {{longitude_, latitude_}};
+  return geojson.dump();
 }
 
 } // namespace nds
