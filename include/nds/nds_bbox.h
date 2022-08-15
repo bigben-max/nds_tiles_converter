@@ -1,4 +1,6 @@
 #pragma once
+#include <glog/logging.h>
+//
 #include "nds/nds_coordinate.h"
 #include "nds/wgs84_bbox.h"
 namespace nds {
@@ -68,7 +70,9 @@ public:
    * @return NdsCoordinate
    */
   NdsCoordinate center() {
-    return NdsCoordinate((east_ + west_) / 2, (north_ + south_) / 2);
+    int32_t lon = (int64_t(east_) + int64_t(west_)) / 2;
+    int32_t lat = (int64_t(north_) + int64_t(south_)) / 2;
+    return NdsCoordinate(lon, lat);
   }
 
   /**

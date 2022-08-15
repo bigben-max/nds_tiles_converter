@@ -30,6 +30,10 @@ file(GLOB_RECURSE SRC src/*.cc)
 add_library(nds_tiles_converter ${SRC})
 target_link_libraries(nds_tiles_converter glog gflags)
 
+add_executable(example node/example.cc)
+target_link_libraries(example nds_tiles_converter)
+
+
 add_executable(nds_coordinate_test test/nds_coordinate_test.cc)
 target_link_libraries(nds_coordinate_test nds_tiles_converter gtest)
 add_executable(nds_tile_test test/nds_tile_test.cc)

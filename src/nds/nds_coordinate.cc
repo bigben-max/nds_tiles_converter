@@ -1,4 +1,5 @@
 #include "nds/nds_coordinate.h"
+#include <glog/logging.h>
 #include <math.h>
 namespace nds {
 NdsCoordinate::NdsCoordinate(int longitude, int latitude) {
@@ -9,12 +10,12 @@ NdsCoordinate::NdsCoordinate(int longitude, int latitude) {
 
 NdsCoordinate::NdsCoordinate(double lon, double lat) {
   if (lon < -180 || lon > 180) {
-    std::cout << "The longitude value " << lon
-              << " exceeds the valid range of [-180; 180]" << std::endl;
+    LOG(FATAL) << "The longitude value " << lon
+               << " exceeds the valid range of [-180; 180]" << std::endl;
   }
   if (lat < -90 || lat > 90) {
-    std::cout << "The latitude value " << lat
-              << " exceeds the valid range of [-90; 90]" << std::endl;
+    LOG(FATAL) << "The latitude value " << lat
+               << " exceeds the valid range of [-90; 90]" << std::endl;
   }
   latitude_ = (int)std::floor(lat / 180.0 * kLatitudeRange);
   longitude_ = (int)std::floor(lon / 360.0 * kLongitudeRange);
@@ -22,9 +23,10 @@ NdsCoordinate::NdsCoordinate(double lon, double lat) {
 
 bool NdsCoordinate::verify(int lon, int lat) {
   if (lat < kMinLatitude || kMaxLatitude < lat) {
-    // throw new IllegalArgumentException(
-    //     "Latitude value " + lat + " exceeds allowed range [-2^30; 2^30] [" +
-    //     kMinLatitude + "," + kMaxLatitude + "].");
+    LOG(FATAL) << ("Latitude value " + std::to_string(lat) +
+                   " exceeds allowed range [-2^30; 2^30] [" +
+                   std::to_string(kMinLatitude) + "," +
+                   std::to_string(kMaxLatitude) + "].");
     return false;
   }
   return true;
